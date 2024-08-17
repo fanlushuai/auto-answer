@@ -48,12 +48,13 @@ const questionLib = {
     let pageTitle = "";
 
     log("拼接元素：");
+
     for (let sT of splitTexts) {
-      if (sT.getText() == "") {
+      if (sT == "") {
         continue;
       }
-      log(sT.getText());
-      pageTitle += sT.getText();
+      log(sT);
+      pageTitle += sT;
       pageTitle += "()";
     }
     log("拼接结果");

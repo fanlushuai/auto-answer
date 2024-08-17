@@ -273,13 +273,31 @@ const wdx = {
           .boundsInside(0, range.range.start, device.width, range.range.end)
           .find();
 
-        // 去除最后一个*。匹配多了
-        if (texts.size() > 0) {
-          if (texts[texts.size() - 1].text() == "*") {
-            texts.pop();
+        let ts = [];
+        for (let t of texts) {
+          log("抓取到文本：[%s]", t.text());
+          ts.push(t.text());
+        }
+
+        // 去除后面的空白
+        // log(texts.size());
+        while (1) {
+          if (ts[ts.length - 1] == undefined || ts[ts.length - 1] == "") {
+            log("去除，最后的一个空白");
+            ts.pop();
+            log("x:%s", ts.length);
+          } else {
+            break;
           }
         }
-        let QAFillBlankQuestion = questionLib.getQAFillBlankQuestion(texts);
+
+        // 去除最后一个*。匹配多了
+        if (ts.length > 0) {
+          if (ts[ts.length - 1] == "*") {
+            ts.pop();
+          }
+        }
+        let QAFillBlankQuestion = questionLib.getQAFillBlankQuestion(ts);
 
         if (QAFillBlankQuestion) {
           log("填空题-答案为：%s", QAFillBlankQuestion.answer);
