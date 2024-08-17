@@ -54,6 +54,7 @@ sheet = wb.sheets[0]
 
 data = []
 for row in sheet.range((2, 1), (1001, 10)).rows:
+
     row_dict = {
         "type": row[0].value,
         "question": standard_question(row[1].value),  # 进行标准化处理
@@ -62,7 +63,11 @@ for row in sheet.range((2, 1), (1001, 10)).rows:
         "answer_c": standard_answer(row[4].value),
         "answer_d": standard_answer(row[5].value),
         "answer_e": standard_answer(row[6].value),
-        "answer": row[7].value,
+        "answer": (
+            re.sub("\.0$", "", str(row[7].value))  # 去除小数点后，多余的0
+            if str(row[0].value) == "填空题"
+            else row[7].value
+        ),
     }
     print(row_dict)
     data.append(row_dict)
