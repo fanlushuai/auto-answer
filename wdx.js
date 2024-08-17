@@ -46,8 +46,8 @@ const wdx = {
 
     // 判断是否到达底部
     let commitEles = text("提交")
+      .boundsInside(0, this.topHeight, device.width, device.height)
       .clickable()
-      .boundsInside(0, this.height, device.width, device.height)
       .find();
     if (commitEles && commitEles.length > 0) {
       log("到达底部");
@@ -194,7 +194,21 @@ const wdx = {
         }
 
         // 去重
-        option = [...new Set(option)];
+
+        function unique(arr) {
+          if (!Array.isArray(arr)) {
+            console.log("type error!");
+            return;
+          }
+          var array = [];
+          for (var i = 0; i < arr.length; i++) {
+            if (array.indexOf(arr[i]) === -1) {
+              array.push(arr[i]);
+            }
+          }
+          return array;
+        }
+        option = unique(option);
 
         for (let a of option) {
           // 多选题，只能直接点击了

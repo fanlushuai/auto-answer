@@ -1,34 +1,19 @@
-let stg = storages.create("xdfsdfsd");
-function boot() {
-  toastLog("启动");
-  if (stg.get("boot", false)) {
-    toastLog("已经启动");
-    return;
-  }
-  stg.put("boot", true);
-  log("开始启动");
-
-  threads.start(function () {
-    // 启动线程，进行答题。
-    work();
-  });
-}
-
-function clearboot() {
-  toastLog("关闭");
-
-  stg.put("boot", false);
-  threads.shutDownAll();
-  sleep(3 * 1000);
-}
+let e;
 
 events.setKeyInterceptionEnabled("volume_up", true);
 events.observeKey();
 events.onKeyUp("volume_up", () => {
   log("音量上键按下又弹起来");
-  boot();
+
+  if (e == null || e.getEngine().isDestroyed()) {
+    log("启动脚本引擎");
+    engines.execScriptFile("./work.js");
+  }
 });
 events.onKeyUp("volume_down", () => {
   log("音量下键按下又弹起来");
-  clearboot();
+  if (e) {
+    log("关闭脚本引擎");
+    e.getEngine().forceStop();
+  }
 });

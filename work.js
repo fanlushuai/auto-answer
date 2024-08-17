@@ -10,11 +10,14 @@ function work() {
         .exists()
     ) {
       log("到达底部");
+      wdx.answerAndNextScreen();
       toast("到达底部,运行完成");
       break;
     }
   }
 }
+
+work();
 
 // 获取当前屏幕中的所有题目
 // 获取到，完整题目，的title和范围。比如，当前屏幕3个题目，那么前两个，是完整的，倒数第一个去掉之后的，一定是完整的。

@@ -35,6 +35,7 @@ files = {
     r"**/*.xml",
     r"**/*.mp3",
     r"**/project.json",
+    r"**/question.json",
 }
 
 ignore_files = {

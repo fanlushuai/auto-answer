@@ -1,7 +1,6 @@
 let questions = {};
 function loadQuestion() {
-  let questionJsonPath = "./question.json";
-  let questionJsonStr = files.read(questionJsonPath).toString();
+  let questionJsonStr = files.read("./question.json").toString();
   questions = JSON.parse(questionJsonStr);
 }
 loadQuestion();
