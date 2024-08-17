@@ -9,6 +9,8 @@ import json, re
 def standard_question(question: str) -> str:
     question = re.sub(r"（\s*）", "()", question)
     question = re.sub(r"\(\s*\)", "()", question)
+    question = re.sub(r"（", "(", question)
+    question = re.sub(r"）", ")", question)
     return question.strip()
 
 

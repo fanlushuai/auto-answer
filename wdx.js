@@ -80,7 +80,7 @@ const wdx = {
     // uiselector.textMatches(/\s*\s*/)
     let aE = text(answerText)
       .boundsInside(0, range.range.start, device.width, range.range.end)
-      .findOne(5000);
+      .findOne(3000);
     if (aE) {
       aE.click();
       return true;
