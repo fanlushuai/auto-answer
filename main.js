@@ -10,6 +10,7 @@ events.setKeyInterceptionEnabled("volume_down", true);
 events.observeKey();
 events.onKeyUp("volume_up", () => {
   log("音量上键");
+
   ss.put("start", true);
 });
 events.onKeyUp("volume_down", () => {
@@ -29,6 +30,7 @@ setInterval(() => {
   if (ss.get("start", false) && !ss.get("threadsStart", false)) {
     ss.put("threadsStart", true);
     log("开启工作线程");
+    toastLog("开启任务");
     threads.start(function () {
       try {
         work();
@@ -38,6 +40,7 @@ setInterval(() => {
         toastLog("任务结束");
         log("恢复标志位");
         autojsUtil.recoverStoped();
+        toastLog("结束任务");
         ss.put("threadsStart", false);
         ss.put("start", false);
       }

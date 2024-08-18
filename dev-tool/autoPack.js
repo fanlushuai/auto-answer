@@ -93,6 +93,8 @@ const Autojsx = {
 
     log("开启 需要无障碍服务");
     click(scrollUtillFind(text("需要无障碍服务")));
+    log("开启 日志");
+    click(scrollUtillFind(text("隐藏日志")));
 
     log("开启 需要悬浮窗权限");
     click(scrollUtillFind(text("需要悬浮窗权限")));
