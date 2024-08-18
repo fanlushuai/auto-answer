@@ -6,6 +6,7 @@ ss.put("start", false); //初始化为false。重新启动，这个应该为停�
 ss.put("threadsStart", false); //初始化为false。重新启动，这个应该为停止的
 
 events.setKeyInterceptionEnabled("volume_up", true);
+events.setKeyInterceptionEnabled("volume_down", true);
 events.observeKey();
 events.onKeyUp("volume_up", () => {
   log("音量上键");
