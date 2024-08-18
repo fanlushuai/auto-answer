@@ -19,11 +19,11 @@ events.onKeyUp("volume_down", () => {
 });
 
 setInterval(() => {
-  if (autojsUtil.stoped()) {
+  if (autojsUtil.stoped() && ss.get("threadsStart", true)) {
     log("停止所有子线程");
     threads.shutDownAll();
   }
-}, 2000);
+}, 1000);
 
 setInterval(() => {
   if (ss.get("start", false) && !ss.get("threadsStart", false)) {
@@ -33,6 +33,7 @@ setInterval(() => {
       try {
         work();
       } catch (error) {
+        log(error);
         log("异常结束"); //中断结束
         toastLog("任务结束");
         log("恢复标志位");
@@ -42,4 +43,4 @@ setInterval(() => {
       }
     });
   }
-}, 2000);
+}, 1000);
