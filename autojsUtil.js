@@ -14,6 +14,9 @@ const autojsUtil = {
   stop: function () {
     s.put("stoped", true);
   },
+  recoverStoped: function () {
+    s.put("stoped", false);
+  },
 };
 
 module.exports = { autojsUtil };

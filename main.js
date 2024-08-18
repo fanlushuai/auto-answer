@@ -8,11 +8,11 @@ ss.put("threadsStart", false); //初始化为false。重新启动，这个应该
 events.setKeyInterceptionEnabled("volume_up", true);
 events.observeKey();
 events.onKeyUp("volume_up", () => {
-  log("音量上键按下又弹起来");
+  log("音量上键");
   ss.put("start", true);
 });
 events.onKeyUp("volume_down", () => {
-  log("音量下键按下又弹起来");
+  log("音量下键");
   // ss.put("start", false);
   autojsUtil.stop();
 });
@@ -25,7 +25,7 @@ setInterval(() => {
 }, 2000);
 
 setInterval(() => {
-  if (ss.get("start", false) && ss.get("threadsStart", false)) {
+  if (ss.get("start", false) && !ss.get("threadsStart", false)) {
     ss.put("threadsStart", true);
     log("开启工作线程");
     threads.start(function () {
@@ -34,6 +34,10 @@ setInterval(() => {
       } catch (error) {
         log("异常结束"); //中断结束
         toastLog("任务结束");
+        log("恢复标志位");
+        autojsUtil.recoverStoped();
+        ss.put("threadsStart", false);
+        ss.put("start", false);
       }
     });
   }
