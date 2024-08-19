@@ -5,7 +5,7 @@ storage.put("interrupt", false); // 是否要中断。
 
 threads.start(() => {
   setInterval(function () {
-    log("xxx");
+    // log("xxx");
     let command = storage.get("command", "");
     if (command == "start" && storage.get("threadHasStart", false) == false) {
       storage.put("command", "");
@@ -15,12 +15,14 @@ threads.start(() => {
       function funcWrapper() {
         try {
           console.log("任务启动");
+          toastLog("任务启动");
           ThreadFix.job();
         } catch (error) {
           console.log(error);
           log("线程异常退出");
           // 恢复状态。
           storage.put("threadHasStart", false);
+          toastLog("任务结束");
         }
       }
 
