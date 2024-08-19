@@ -82,9 +82,10 @@ const wdx = {
     // uiselector.textMatches(/\s*\s*/)
     let aE = text(answerText)
       .boundsInside(0, range.range.start, device.width, range.range.end)
-      .findOne(3000);
-    if (aE) {
-      aE.click();
+      .find();
+
+    if (aE.size() > 0) {
+      aE[0].click();
       return true;
     } else {
       log("点选失败，找不到选项： %s", answerText);
@@ -148,7 +149,13 @@ const wdx = {
   },
   answerOneQuestion: function (range) {
     log("开始答题：%s", range.title);
+    let startTime = new Date().getTime();
     let QA = questionLib.getQAByQuestion(range.title);
+    let endTime = new Date().getTime();
+    log("题库查询耗时:%d 毫秒", endTime - startTime);
+    // 根据题目，查询题目。都有可能查询到多到题目。全表扫描比较合适。
+    // 但是，为了一点点性能。只在多选题的时候，使用全表扫描
+    // 这样单选题，可能，出问题。todo。在第一次找不到的情况下，进行全表扫描。
     if (QA) {
       log("题库解答:%j", QA);
 
@@ -162,6 +169,7 @@ const wdx = {
         if (allQA.length > 1) {
           for (let qa of allQA) {
             if (qa.answer == QA.answer) {
+              //todo 可能答案一样，但是，对应的选项内容不一样。
               continue;
             }
 
@@ -322,7 +330,7 @@ const wdx = {
     let questionEles = this.getQuestionElesInCurrentScreen();
 
     //   因为要滚动，需要第二个题目。所以只有一个问题，就轻微向下移动一些。直到，超过1个。
-    if (questionEles.length == 1) {
+    if (questionEles.length <= 1) {
       log("内容向下滚动，到至少两道题出现");
       swipe(
         device.width / 3,
@@ -331,7 +339,6 @@ const wdx = {
         wdx.topHeight,
         500
       );
-      sleep(5 * 1000);
       questionEles = this.getQuestionElesInCurrentScreen();
     }
 
@@ -341,9 +348,7 @@ const wdx = {
       this.answerOneQuestion(range);
     }
 
-    sleep(800);
     this.scrollTopnextQuestion(questionEles[questionEles.length - 1]);
-    sleep(800);
   },
 };
 
