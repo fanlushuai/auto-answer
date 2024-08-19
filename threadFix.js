@@ -5,7 +5,7 @@ storage.put("interrupt", false); // 是否要中断。
 
 threads.start(() => {
   setInterval(function () {
-    log("xxx");
+    // log("xxx");
     let command = storage.get("command", "");
     if (command == "start" && storage.get("threadHasStart", false) == false) {
       storage.put("command", "");
