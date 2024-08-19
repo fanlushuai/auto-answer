@@ -5,7 +5,7 @@ storage.put("interrupt", false); // 是否要中断。
 
 threads.start(() => {
   setInterval(function () {
-    // log("xxx");
+    log("xxx");
     let command = storage.get("command", "");
     if (command == "start" && storage.get("threadHasStart", false) == false) {
       storage.put("command", "");
@@ -24,6 +24,7 @@ threads.start(() => {
           storage.put("threadHasStart", false);
           toastLog("任务结束");
         }
+        storage.put("threadHasStart", false);
       }
 
       threads.start(funcWrapper);
@@ -68,6 +69,8 @@ const ThreadFix = {
     if (storage.get("interrupt") == true) {
       console.log("中断线程");
       threads.currentThread().interrupt();
+      // fix有时候可以直接中断？？
+      storage.put("threadHasStart", false);
     }
   },
 };
