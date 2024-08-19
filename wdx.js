@@ -1,5 +1,6 @@
 const { autojsUtil } = require("./autojsUtil");
 const { questionLib } = require("./questionLib");
+const { ThreadFix } = require("./threadFix");
 
 // 问答星
 const wdx = {
@@ -78,7 +79,7 @@ const wdx = {
   },
   clickAnswer: function (range, answerText) {
     log("点击答案 %s", answerText);
-    autojsUtil.exitIfStoped();
+    ThreadFix.exitIfStoped();
     // 换成textMatch，兼容性更强。
     // uiselector.textMatches(/\s*\s*/)
     let aE = text(answerText)
@@ -95,7 +96,7 @@ const wdx = {
   },
   choose: function (QA, range, option) {
     log("填写答案 %s", option);
-    autojsUtil.exitIfStoped();
+    ThreadFix.exitIfStoped();
     if (option == "A") {
       log(QA.answer_a);
 
@@ -236,7 +237,7 @@ const wdx = {
           // 多选题，需要判断是否已经回答过。不然会出现反选的情况。
           // 选项级别的去重
           for (let ha of this.hasAnsweredListForMutilAnswer) {
-            autojsUtil.exitIfStoped();
+            ThreadFix.exitIfStoped();
 
             if (ha == QA.question + a) {
               console.warn("已经回答过，跳过");
