@@ -13,6 +13,7 @@ def standard_question(question: str) -> str:
     question = re.sub(r"）", ")", question)
     # 去掉 换行符
     question = re.sub(r"\n", "", question)
+    question = re.sub(r"  ", " ", question)
     return question.strip()
 
 

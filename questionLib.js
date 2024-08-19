@@ -26,11 +26,19 @@ const questionLib = {
     let s = removeSpacesInParentheses(questionTitle);
     s = removeSpacesInParenthesesEn(s);
     s = s.replace(/【多选题】$/, ""); // 去掉多选题 最后的【多选题】
+    s = s.replace(/  /g, ""); // 去掉多选题 最后的【多选题】
     return s.replace(/（/g, "(").replace(/）/g, ")").trim();
   },
   getQAByQuestion: function (question) {
     for (q of questions) {
       if (q.question == question) {
+        return q;
+      }
+    }
+  },
+  getQAByQuestionByType: function (question, type) {
+    for (q of questions) {
+      if (q.type == type && q.question == question) {
         return q;
       }
     }

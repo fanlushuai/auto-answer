@@ -34,6 +34,7 @@ const wdx = {
       let q1 = questionsELes[i];
       if (i + 1 < questionsELes.length) {
         let r = {
+          type: q1.text().includes("【多选题】") ? "多选题" : "其他",
           title: questionLib.standardQuestion(q1.getText()),
           range: {
             start: q1.bounds().top,
@@ -150,13 +151,21 @@ const wdx = {
   answerOneQuestion: function (range) {
     log("开始答题：%s", range.title);
     let startTime = new Date().getTime();
-    let QA = questionLib.getQAByQuestion(range.title);
+    let QA;
+
+    if (range.type == "多选题") {
+      QA = questionLib.getQAByQuestionByType(range.title, range.type);
+    } else {
+      QA = questionLib.getQAByQuestion(range.title);
+    }
+
     let endTime = new Date().getTime();
     log("题库查询耗时:%d 毫秒", endTime - startTime);
     // 根据题目，查询题目。都有可能查询到多到题目。全表扫描比较合适。
     // 但是，为了一点点性能。只在多选题的时候，使用全表扫描
     // 这样单选题，可能，出问题。todo。在第一次找不到的情况下，进行全表扫描。
     if (QA) {
+      // todo 其实，这个位置，是不能拿到，题型的。因为，还有的题目一样，题型不同。
       log("题库解答:%j", QA);
 
       if (QA.type == "单选题") {
