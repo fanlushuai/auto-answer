@@ -11,6 +11,8 @@ def standard_question(question: str) -> str:
     question = re.sub(r"\(\s*\)", "()", question)
     question = re.sub(r"（", "(", question)
     question = re.sub(r"）", ")", question)
+    # 去掉 换行符
+    question = re.sub(r"\n", "", question)
     return question.strip()
 
 
